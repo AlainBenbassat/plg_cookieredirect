@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="system" method="upgrade">
+	<name>CookieRedirect</name>
+	<author>Alain Benbassat</author>
+	<creationDate>November 2016</creationDate>
+	<copyright>Copyright (C) 2016 Alain Benbassat. All rights reserved.</copyright>
+	<license>GNU General Public License version 3; see LICENSE.txt</license>
+	<authorEmail>alain@businessandcode.eu</authorEmail>
+	<authorUrl>www.businessandcode.eu</authorUrl>
+	<version>1.0</version>
+	<description>PLG_SYSTEM_COOKIEREDIRECT_XML_DESCRIPTION</description>
+
+	<files>
+		<filename plugin="cookieredirect">cookieredirect.php</filename>
+		<filename>index.html</filename>
+	</files>
+
+    <languages folder="language">
+        <language tag="en-US">en-US/en-US.plg_system_cookieredirect.ini</language>
+        <language tag="en-GB">en-GB/en-GB.plg_system_cookieredirect.ini</language>
+        <language tag="nl-BE">nl-BE/nl-BE.plg_system_cookieredirect.ini</language>
+    </languages>
+
+    <config>
+        <fields name="params">
+	        <fieldset name="basic">
+                <field
+                    name="cookietocheck"
+                    type="text"
+                    label="PLG_SYSTEM_COOKIEREDIRECT_COOKIETOCHECK"
+                    description="PLG_SYSTEM_COOKIEREDIRECT_COOKIETOCHECK_DESCRIPTION"
+                    default="cookieRedirect"
+                    class="required"
+                    size="40"
+                />
+                <field
+                    name="redirectrul"
+                    type="text"
+                    label="PLG_SYSTEM_COOKIEREDIRECT_REDIRECTURL"
+                    description=""
+                    default=""
+                    class="required"
+                    size="40"
+                />
+            </fieldset>
+        </fields>
+    </config>
+</extension>
