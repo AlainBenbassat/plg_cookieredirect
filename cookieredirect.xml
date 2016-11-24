@@ -25,6 +25,15 @@
         <fields name="params">
 	        <fieldset name="basic">
                 <field
+                        name="categorytocheck"
+                        type="text"
+                        label="PLG_SYSTEM_COOKIEREDIRECT_CATEGORYTOCHECK"
+                        description="PLG_SYSTEM_COOKIEREDIRECT_CATEGORYTOCHECK_DESCRIPTION"
+                        default=""
+                        class="required"
+                        size="40"
+                />
+                <field
                     name="cookietocheck"
                     type="text"
                     label="PLG_SYSTEM_COOKIEREDIRECT_COOKIETOCHECK"
