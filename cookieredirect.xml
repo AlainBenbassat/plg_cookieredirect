@@ -25,10 +25,10 @@
         <fields name="params">
 	        <fieldset name="basic">
                 <field
-                        name="categorytocheck"
+                        name="categoriestocheck"
                         type="text"
-                        label="PLG_SYSTEM_COOKIEREDIRECT_CATEGORYTOCHECK"
-                        description="PLG_SYSTEM_COOKIEREDIRECT_CATEGORYTOCHECK_DESCRIPTION"
+                        label="PLG_SYSTEM_COOKIEREDIRECT_CATEGORIESTOCHECK"
+                        description="PLG_SYSTEM_COOKIEREDIRECT_CATEGORIESTOCHECK_DESCRIPTION"
                         default=""
                         class="required"
                         size="40"

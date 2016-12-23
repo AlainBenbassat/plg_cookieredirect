@@ -8,7 +8,7 @@ jimport('joomla.plugin.plugin');
 class plgSystemCookieredirect extends JPlugin {
   private $redirectURL = '';
   private $cookieToCheck = '';
-  private $categoryToCheck = '';
+  private $categoriesToCheck = '';
 
   public function __construct(&$subject, $config = array()) {
     parent::__construct($subject, $config);
@@ -16,7 +16,7 @@ class plgSystemCookieredirect extends JPlugin {
     // get the plugin settings
     $this->cookieToCheck = $this->params->get('cookietocheck', '');
     $this->redirectURL = $this->params->get('redirectrul', '');
-    $this->categoryToCheck = $this->params->get('categorytocheck', '');
+    $this->categoriesToCheck = array_map('trim', explode(',', $this->params->get('categoriestocheck', '')));
   }
 
   function onBeforeCompileHead() {
@@ -46,14 +46,15 @@ class plgSystemCookieredirect extends JPlugin {
           $row = $db->loadAssoc();
 
           // check the category title
-          if ($row['title'] == $this->categoryToCheck) {
+          if (in_array($row['title'], $this->categoriesToCheck)) {
             $inValidCategory = TRUE;
           }
           else {
             // not the category we need, continue with its parent
             $catID = $row['parent_id'];
           }
-        } while ($catID != 0 && $inValidCategory == FALSE);
+        }
+        while ($catID != 0 && $inValidCategory == FALSE);
       }
 
       if ($inValidCategory == FALSE) {
