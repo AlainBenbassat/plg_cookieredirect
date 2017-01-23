@@ -25,10 +25,10 @@
         <fields name="params">
 	        <fieldset name="basic">
                 <field
-                        name="categoriestocheck"
+                        name="tagstocheck"
                         type="text"
-                        label="PLG_SYSTEM_COOKIEREDIRECT_CATEGORIESTOCHECK"
-                        description="PLG_SYSTEM_COOKIEREDIRECT_CATEGORIESTOCHECK_DESCRIPTION"
+                        label="PLG_SYSTEM_COOKIEREDIRECT_TAGSTOCHECK"
+                        description="PLG_SYSTEM_COOKIEREDIRECT_TAGSTOCHECK_DESCRIPTION"
                         default=""
                         class="required"
                         size="40"

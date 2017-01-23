@@ -8,7 +8,7 @@ jimport('joomla.plugin.plugin');
 class plgSystemCookieredirect extends JPlugin {
   private $redirectURL = '';
   private $cookieToCheck = '';
-  private $categoriesToCheck = '';
+  private $tagsToCheck = '';
 
   public function __construct(&$subject, $config = array()) {
     parent::__construct($subject, $config);
@@ -16,7 +16,7 @@ class plgSystemCookieredirect extends JPlugin {
     // get the plugin settings
     $this->cookieToCheck = $this->params->get('cookietocheck', '');
     $this->redirectURL = $this->params->get('redirectrul', '');
-    $this->categoriesToCheck = array_map('trim', explode(',', $this->params->get('categoriestocheck', '')));
+    $this->tagsToCheck = $this->params->get('tagstocheck');
   }
 
   function onBeforeCompileHead() {
@@ -28,42 +28,19 @@ class plgSystemCookieredirect extends JPlugin {
     // - we must be on the site (not in admin)
     // - it must be an article
     if ($app->isSite() && $app->input->get('view') == 'article') {
-      // get the category ID of the article
-      $catID = $app->input->getInt('catid');
+      // see if the article is tagged with one the required tags
+      $query = $db->getQuery(true);
+      $query->select($db->quoteName('content_item_id'))
+        ->from($db->quoteName('#__contentitem_tag_map'))
+        ->where($db->quoteName('type_alias') . ' = ' . $db->quote('com_content.article'))
+        ->where($db->quoteName('content_item_id') . ' = ' . $app->input->get('id'))
+        ->where($db->quoteName('tag_id') . ' in (' . $this->tagsToCheck . ')');
 
-      // check if one of its parent categories = Huisarts Nu archief
-      $inValidCategory = FALSE;
-      if ($catID > 0) {
-        do {
-          // get the category details
-          $query = $db->getQuery(true);
-          $query->select($db->quoteName(array('id', 'title', 'parent_id')))
-            ->from($db->quoteName('#__categories'))
-            ->where($db->quoteName('id') . ' = ' . $catID)
-            ->where($db->quoteName('extension') . ' = ' . $db->quote('com_content'));
-
-          $db->setQuery($query);
-          $row = $db->loadAssoc();
-
-          // check the category title
-          if (in_array($row['title'], $this->categoriesToCheck)) {
-            $inValidCategory = TRUE;
-          }
-          else {
-            // not the category we need, continue with its parent
-            $catID = $row['parent_id'];
-          }
-        }
-        while ($catID != 0 && $inValidCategory == FALSE);
-      }
-
-      if ($inValidCategory == FALSE) {
-        // we're not in the category we need, so just quit
-        return TRUE;
-      }
+      $db->setQuery($query);
+      $row = $db->loadAssoc();
 
       // get the cookie we need to check
-      if ($this->cookieToCheck) {
+      if ($row['content_item_id'] && $this->cookieToCheck) {
         $inputCookie = $app->input->cookie;
         $cookieValue = $inputCookie->get($this->cookieToCheck, '');
 
